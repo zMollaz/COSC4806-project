@@ -14,6 +14,15 @@ session_start();
     .bg-cyan-800 {
       background-color: #006064;
     }
+    .text-cyan-800 {
+      color: #006064;
+    }
+    .breadcrumb-item a {
+      color: #006064;
+    }
+    .breadcrumb-item.active {
+      color: #004d4d;
+    }
   </style>
 </head>
 
@@ -61,3 +70,5 @@ session_start();
   </div>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-BwFdF5y3Me7RnHFFxBoAsuHO4P7b9U8RZZI66prPa8fyTFI3B6UJ7Cs2NNtMOHlm" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9bjeiK0FNDOsHlHCBXSz5xBfE7rgJhlSk3zp1mFN9IM+gtR3IW6ApqE" crossorigin="anonymous"></script>
+</body>
+</html>
