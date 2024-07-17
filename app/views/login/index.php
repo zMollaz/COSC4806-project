@@ -1,11 +1,12 @@
 <?php 
 session_start();
+
 $error = '';
+
 if (isset($_SESSION["loginError"]) && $_SESSION["loginError"] == true) {
     $error = $_SESSION["loginError"];
 }
 
-// require_once 'app/views/templates/headerPublic.php';
 ?>
 <main role="main" class="container mt-5">
     <div class="row justify-content-center">
@@ -43,4 +44,3 @@ if (isset($_SESSION["loginError"]) && $_SESSION["loginError"] == true) {
         </div>
     </div>
 </main>
-<!-- <?php require_once 'app/views/templates/footer.php'; ?> -->

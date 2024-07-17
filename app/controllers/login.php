@@ -1,16 +1,16 @@
 <?php
 
-class login extends Controller {
+class Login extends Controller {
 
   public function index() {
     $this->view('login/index');
   }
 
   public function verify() {
-    $username = $REQUEST['username'];
-    $password = $REQUEST['password'];
+    $username = $_REQUEST['username'];
+    $password = $_REQUEST['password'];
 
-    $user = this->model('User');
+    $user = $this->model('User');
     $user->authenticate($username, $password);
   }
   
