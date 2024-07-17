@@ -4,15 +4,19 @@ class Movie extends Controller {
         $this->view('movie/index');
     }
 
-    public function search() {
-        if (!isset($_REQUEST['movie'])) {
-            header('Location: /movie');  
+    public function search($param = '') {
+
+        if ($_REQUEST['movie']) {
+            $movie = $_REQUEST['movie'];
+            header('Location: /movie/search/'.$movie);
         }
 
-        $movie_title = $_REQUEST['movie'];
+        // $movie_title = $_REQUEST['movie'];
         $api = $this->model('Api');
-        $movie = $api->find_movie($movie_title);
+        $movie = $api->find_movie($param);
 
+        $_SESSION['controller'] = 'movie';
+        $_SESSION['movieTitle'] = $movie['Title'] ?? 'Not Found';
         $this->view('movie/search', ['movie' => $movie]);
     }
 }

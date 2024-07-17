@@ -40,11 +40,17 @@ session_start();
               <a class="nav-link active" aria-current="page" href="/home">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/reminders">Movies</a>
+              <a class="nav-link" href="/movie">Movies</a>
             </li>
           <?php endif; ?>
         </ul>
         <div class="d-flex align-items-center">
+          <a href="/movie" class="nav-link text-white d-flex align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search me-2" viewBox="0 0 16 16">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 1.415-1.415l-3.85-3.85zm-5.75-8.587a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11z"/>
+            </svg>
+            Search
+          </a>
           <?php if (isset($_SESSION['auth'])): ?>
             <p class="text-white mb-0 me-3">Today is <?php echo date("l jS \of F Y"); ?></p>
             <a href="/logout" class="btn btn-danger">Logout</a>
@@ -59,11 +65,12 @@ session_start();
   <div class="container mt-3">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <?php if (isset($_SESSION['controller']) && $_SESSION['controller'] == 'home'): ?>
-          <li class="breadcrumb-item active" aria-current="page">Home /</li>
-        <?php else: ?>
-          <li class="breadcrumb-item"><a href="/">Home</a></li>
-          <li class="breadcrumb-item active" aria-current="page"><?php echo ucwords($_SESSION["controller"] ?? ''); ?></li>
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <?php if (isset($_SESSION['controller']) && $_SESSION['controller'] !== 'home'): ?>
+          <li class="breadcrumb-item"><a href="/<?php echo strtolower($_SESSION['controller']); ?>"><?php echo ucwords($_SESSION['controller']); ?></a></li>
+          <?php if (isset($_SESSION['movieTitle'])): ?>
+            <li class="breadcrumb-item active" aria-current="page"><?php echo $_SESSION['movieTitle']; ?></li>
+          <?php endif; ?>
         <?php endif; ?>
       </ol>
     </nav>
