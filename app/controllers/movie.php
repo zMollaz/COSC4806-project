@@ -6,7 +6,7 @@ class Movie extends Controller {
 
     public function search($param = '') {
         if ($_REQUEST['movie']) {
-            $movie = $_REQUEST['movie'];
+            $movie = strtolower($_REQUEST['movie']);
             header('Location: /movie/search/'.$movie);
         }
 
@@ -15,22 +15,24 @@ class Movie extends Controller {
 
         // Get ratings
         $ratingModel = $this->model('Rating');
-        $averageRating = $ratingModel->getAverageRating($param);
+        $movie_title = str_replace('%20', ' ', $param);
+        $averageRating = $ratingModel->getAverageRating($movie_title);
 
         $_SESSION['controller'] = 'movie';
-        $_SESSION['movieTitle'] = $movie['Title'] ?? 'Not Found';
+        $_SESSION['movieTitle'] = strtolower($movie['Title']) ?? 'Not Found';
         $this->view('movie/search', ['movie' => $movie, 'averageRating' => $averageRating]);
     }
 
     public function rate($param1 = '', $param2 = '') {
-        $movieTitle = $_POST['movieTitle'];
+    if ($_REQUEST['movieTitle'] && $_REQUEST['rating']) {
+        $movieTitle = strtolower($_POST['movieTitle']);
         $rating = $_POST['rating'];
-        header('Location: /movie/rate/'. $movieTitle . '/' . $rating);
-        
+
         $userId = $_SESSION['user_id'] ?? session_id();
         $ratingModel = $this->model('Rating');
-        $ratingModel->addRating($userId, $param1, $param2);
-
+        $ratingModel->addRating($userId, $movieTitle, $rating);
+        header('Location: /movie/search/'. $movieTitle);
+    }
     }
 }
 ?>

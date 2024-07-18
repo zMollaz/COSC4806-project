@@ -92,7 +92,7 @@ session_start();
         <?php if (isset($_SESSION['controller']) && $_SESSION['controller'] !== 'home') : ?>
           <li class="breadcrumb-item"><a href="/<?php echo strtolower($_SESSION['controller']); ?>"><?php echo ucwords($_SESSION['controller']); ?></a></li>
           <?php if (isset($_SESSION['movieTitle'])) : ?>
-            <li class="breadcrumb-item active" aria-current="page"><?php echo $_SESSION['movieTitle']; ?></li>
+            <li class="breadcrumb-item active" aria-current="page"><?php echo ucwords($_SESSION['movieTitle']); ?></li>
           <?php endif; ?>
         <?php endif; ?>
       </ol>
