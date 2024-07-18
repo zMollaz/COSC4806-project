@@ -35,6 +35,55 @@
     .container {
       margin-bottom: 5rem;
     }
+
+    .rating-stars {
+      direction: rtl;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .rating-stars input {
+      display: none;
+    }
+
+    .rating-stars label {
+      font-size: 2rem;
+      color: #ccc;
+      cursor: pointer;
+    }
+
+    .rating-stars input:hover ~ label,
+    .rating-stars label:hover,
+    .rating-stars label:hover ~ label {
+      color: #ffcc00;
+    }
+
+    .rating-stars input:checked ~ label,
+    .rating-stars input:checked ~ label ~ label {
+      color: #ffcc00;
+    }
+
+    .rating-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .average-rating {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .rating-form {
+      display: flex;
+      align-items: center;
+    }
+
+    .rating-form button {
+      margin-left: 10px;
+    }
   </style>
 </head>
 <main role="main" class="container">
@@ -46,6 +95,22 @@
         <div class="movie-details p-3 bg-white rounded shadow-sm">
           <div class="text-center mb-4">
             <h1 class="display-6"><?php echo $movie['Title']; ?></h1>
+          </div>
+          <div class="rating-container">
+            <div class="average-rating">
+              <p><strong>Average Rating:</strong> <?php echo number_format($data['averageRating'], 1); ?> / 5</p>
+            </div>
+            <div class="rating-stars">
+              <form action="/movie/rate" method="post" class="rating-form">
+                <button type="submit" class="btn btn-primary ml-3">Submit Rating</button>
+                <input type="hidden" name="movieTitle" value="<?php echo $movie['Title']; ?>">
+                <input type="radio" id="star5" name="rating" value="5"><label for="star5">&#9733;</label>
+                <input type="radio" id="star4" name="rating" value="4"><label for="star4">&#9733;</label>
+                <input type="radio" id="star3" name="rating" value="3"><label for="star3">&#9733;</label>
+                <input type="radio" id="star2" name="rating" value="2"><label for="star2">&#9733;</label>
+                <input type="radio" id="star1" name="rating" value="1"><label for="star1">&#9733;</label>
+              </form>
+            </div>
           </div>
           <div class="row">
             <div class="col-md-3 text-center mb-4">
