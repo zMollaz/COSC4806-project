@@ -61,5 +61,18 @@ class Movie extends Controller {
             $statement->execute();
         }
     }
+
+    public function review($param1 = '') {
+        if ($_REQUEST['movie']) {
+            $movie = strtolower($_REQUEST['movie']);
+            header('Location: /movie/review/'.$movie);
+        }
+        
+        $api = $this->model('Api');
+        $review = $api->review_movie($param1);
+        // $_SESSION['controller'] = 'movie';
+        $_SESSION['movieTitle'] = strtolower($movie['Title']);
+        $this->view('movie/review', ['review' => $review]);
+    }
 }
 ?>
