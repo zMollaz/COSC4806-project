@@ -14,6 +14,5 @@ class Api {
       $phpObj = json_decode($json, true);
       return $phpObj;
   }
-
 }
 ?>

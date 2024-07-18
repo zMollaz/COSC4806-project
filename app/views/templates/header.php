@@ -91,7 +91,7 @@ session_start();
         <li class="breadcrumb-item"><a href="/">Home</a></li>
         <?php if (isset($_SESSION['controller']) && $_SESSION['controller'] !== 'home') : ?>
           <li class="breadcrumb-item"><a href="/<?php echo strtolower($_SESSION['controller']); ?>"><?php echo ucwords($_SESSION['controller']); ?></a></li>
-          <?php if (isset($_SESSION['movieTitle'])) : ?>
+          <?php if (isset($_SESSION['movieTitle']) && $_SESSION['controller'] ==='movie' && $_SESSION['action'] === 'search') : ?>
             <li class="breadcrumb-item active" aria-current="page"><?php echo ucwords($_SESSION['movieTitle']); ?></li>
           <?php endif; ?>
         <?php endif; ?>

@@ -4,7 +4,7 @@ class Rating {
     public function __construct() {
     }
 
-    public function addRating($userId, $movieTitle, $rating) {
+    public function add_rating($userId, $movieTitle, $rating) {
         $db = db_connect();
         $statement = $db->prepare('INSERT INTO ratings (user_id, movie_title, rating) VALUES (:user_id, :movie_title, :rating)');
         $statement->bindValue(':user_id', $userId);
@@ -13,7 +13,7 @@ class Rating {
         $statement->execute();
     }
 
-    public function getAverageRating($movieTitle) {
+    public function get_average_rating($movieTitle) {
         $db = db_connect();
         $statement = $db->prepare('SELECT AVG(rating) as averageRating FROM ratings WHERE movie_title = :movie_title');
         $statement->bindValue(':movie_title', strtolower($movieTitle));
