@@ -28,6 +28,7 @@ class Movie extends Controller {
         $_SESSION['movieTitle'] = $movie_data['Title'] ?? 'Not Found';
         $this->view('movie/search', ['movie' => $movie_data, 'averageRating' => $averageRating]);
     }
+    
     public function rate($param1 = '', $param2 = '') {
     if ($_REQUEST['movieTitle'] && $_REQUEST['rating']) {
             $movieTitle = strtolower($_POST['movieTitle']);
@@ -46,6 +47,7 @@ class Movie extends Controller {
 
             $ratingModel = $this->model('Rating');
             $ratingModel->add_rating($userId, $movieTitle, $rating);
+            $_SESSION['user_rating'] = $rating;
             header('Location: /movie/search/' . $movieTitle);
             return;
         }

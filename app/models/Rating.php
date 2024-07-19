@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 class Rating {
     public function __construct() {
@@ -11,6 +12,8 @@ class Rating {
         $statement->bindValue(':movie_title', strtolower($movieTitle));
         $statement->bindValue(':rating', (int)$rating);
         $statement->execute();
+        $_SESSION['user_rating'] = $rating;
+        $_SESSION['rated'] = 1;
     }
 
     public function get_average_rating($movieTitle) {
