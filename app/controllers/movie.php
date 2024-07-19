@@ -1,31 +1,35 @@
 <?php
 session_start();
+
 class Movie extends Controller {
     public function index() {
         $this->view('movie/index');
     }
 
     public function search($param = '') {
-        if ($_REQUEST['movie']) {
-            $movie = strtolower($_REQUEST['movie']);
-            header('Location: /movie/search/'.$movie);
+        if (isset($_REQUEST['movie'])) {
+            $movie_title = strtolower($_REQUEST['movie']);
+            header('Location: /movie/search/'.$movie_title);
+            exit;
         }
 
         $api = $this->model('Api');
-        $movie = $api->find_movie($param);
-
+        $movie_data = $api->find_movie($param);
+        $_SESSION['movie_data'] = $movie_data;
+        // echo '<pre>';
+        // print_r($movie_data);
+        // die;/////////////////////////////////
         // Get ratings
         $ratingModel = $this->model('Rating');
-        $movie_title = str_replace('%20', ' ', $param);
-        $averageRating = $ratingModel->get_average_rating($movie_title);
+        // $movie_title = str_replace('%20', ' ', $param);
+        $averageRating = $ratingModel->get_average_rating($movie_data['Title']);
 
         $_SESSION['controller'] = 'movie';
-        $_SESSION['movieTitle'] = strtolower($movie['Title']) ?? 'Not Found';
-        $this->view('movie/search', ['movie' => $movie, 'averageRating' => $averageRating]);
+        $_SESSION['movieTitle'] = $movie_data['Title'] ?? 'Not Found';
+        $this->view('movie/search', ['movie' => $movie_data, 'averageRating' => $averageRating]);
     }
-
     public function rate($param1 = '', $param2 = '') {
-        if ($_REQUEST['movieTitle'] && $_REQUEST['rating']) {
+    if ($_REQUEST['movieTitle'] && $_REQUEST['rating']) {
             $movieTitle = strtolower($_POST['movieTitle']);
             $rating = $_POST['rating'];
 
@@ -53,7 +57,7 @@ class Movie extends Controller {
         $statement = $db->prepare('SELECT COUNT(*) FROM users WHERE id = :id');
         $statement->bindValue(':id', $userId);
         $statement->execute();
-    
+
         if ($statement->fetchColumn() == 0) {
             // If user doesn't exist add the new user as a guest user
             $statement = $db->prepare('INSERT INTO users (id) VALUES (:id)');
@@ -62,17 +66,14 @@ class Movie extends Controller {
         }
     }
 
+
     public function review($param1 = '') {
-        if ($_REQUEST['movie']) {
-            $movie = strtolower($_REQUEST['movie']);
-            header('Location: /movie/review/'.$movie);
-        }
-        
+        $movie_data = $_SESSION['movie_data'];
         $api = $this->model('Api');
-        $review = $api->review_movie($param1);
-        // $_SESSION['controller'] = 'movie';
-        $_SESSION['movieTitle'] = strtolower($movie['Title']);
-        $this->view('movie/review', ['review' => $review]);
+        $review = $api->review_movie($movie_data);
+
+        $_SESSION['movieTitle'] = $movie_data['Title'];
+        $this->view('movie/review', ['review' => $review, 'movieTitle' => $movie_data['Title']]);
     }
 }
 ?>

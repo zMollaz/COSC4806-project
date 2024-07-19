@@ -19,7 +19,6 @@ class Rating {
         $statement->bindValue(':movie_title', strtolower($movieTitle));
         $statement->execute();
         $rows = $statement->fetch(PDO::FETCH_ASSOC);
-        echo $rows['averageRating'];
         return $rows['averageRating'];
     }
 }

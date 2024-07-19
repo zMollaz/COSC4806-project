@@ -102,7 +102,7 @@
             </div>
             <div class="rating-stars">
               <form action="/movie/rate" method="post" class="rating-form">
-                <button type="submit" class="btn btn-primary ml-3">Submit Rating</button>
+                <button type="submit" class="btn btn-secondary ml-3">Rate</button>
                 <input type="hidden" name="movieTitle" value="<?php echo $movie['Title']; ?>">
                 <input type="radio" id="star5" name="rating" value="5"><label for="star5">&#9733;</label>
                 <input type="radio" id="star4" name="rating" value="4"><label for="star4">&#9733;</label>
@@ -115,6 +115,10 @@
           <div class="row">
             <div class="col-md-3 text-center mb-4">
               <img src="<?php echo $movie['Poster']; ?>" class="img-fluid rounded" alt="Movie Poster">
+              <form action="/movie/review" method="post">
+                <input type="hidden" name="movieTitle" value="<?php echo $movie['Title']; ?>">
+                <button type="submit" class="btn btn-secondary mt-3">Get Review</button>
+              </form>
             </div>
             <div class="col-md-9">
               <p><strong>Year:</strong> <?php echo $movie['Year']; ?></p>
