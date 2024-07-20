@@ -3,6 +3,14 @@ session_start();
 
 class Home extends Controller {
     public function index() {
+        // Increment the counter and save the db count in a session variable if this is a new visit
+        if (!isset($_SESSION['visit_counted'])) {
+            $visit = $this->model("Visit");
+            $visit->increment_counter();
+            $_SESSION['visit_counted'] = 1;
+            $_SESSION['visit_count'] = $visit->get_visit_count();
+        }
+
         $ratingModel = $this->model('Rating');
         $api = $this->model('Api');
 
