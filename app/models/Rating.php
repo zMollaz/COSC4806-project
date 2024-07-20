@@ -45,5 +45,20 @@ class Rating {
         $row = $statement->fetch(PDO::FETCH_ASSOC);
         return $row ? $row['rating'] : null;
     }
+
+    public function get_rated_movies_by_user($userId) {
+        $db = db_connect();
+        $statement = $db->prepare('SELECT DISTINCT movie_title FROM ratings WHERE user_id = :user_id');
+        $statement->bindValue(':user_id', $userId);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function get_all_rated_movies() {
+        $db = db_connect();
+        $statement = $db->prepare('SELECT DISTINCT movie_title FROM ratings');
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>
