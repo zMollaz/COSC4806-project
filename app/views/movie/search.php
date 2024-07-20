@@ -85,6 +85,11 @@
       margin-left: 10px;
     }
   </style>
+  <script>
+    function showLoadingScreen() {
+      document.getElementById('loading-screen').style.display = 'flex';
+    }
+  </script>
 </head>
 <main role="main" class="container">
   <?php if (isset($data['movie']) && !empty($data['movie']) && $data['movie']['Response'] == 'True') :
@@ -103,19 +108,19 @@
             <div class="rating-stars">
               <form action="/movie/rate" method="post" class="rating-form">
                 <button type="submit" class="btn btn-secondary ml-3">Rate</button>
-                <input type="hidden" name="movieTitle" value="<?php echo $movie['Title']; ?>">
-                <input type="radio" id="star5" name="rating" value="5"><label for="star5">&#9733;</label>
-                <input type="radio" id="star4" name="rating" value="4"><label for="star4">&#9733;</label>
-                <input type="radio" id="star3" name="rating" value="3"><label for="star3">&#9733;</label>
-                <input type="radio" id="star2" name="rating" value="2"><label for="star2">&#9733;</label>
-                <input type="radio" id="star1" name="rating" value="1"><label for="star1">&#9733;</label>
+                <input type="radio" id="star5" name="rating" value="5" min="5" max="5" required><label for="star5">&#9733;</label>
+                <input type="radio" id="star4" name="rating" value="4" min="4" max="4" required><label for="star4">&#9733;</label>
+                <input type="radio" id="star3" name="rating" value="3" min="3" max="3" required><label for="star3">&#9733;</label>
+                <input type="radio" id="star2" name="rating" value="2" min="2" max="2" required><label for="star2">&#9733;</label>
+                <input type="radio" id="star1" name="rating" value="1" min="1" max="1" required><label for="star1">&#9733;</label>
+                <!-- <input type="hidden" name="movieTitle" value="<?php echo $movie['Title']; ?>"> -->
               </form>
             </div>
           </div>
           <div class="row">
             <div class="col-md-3 text-center mb-4">
               <img src="<?php echo $movie['Poster']; ?>" class="img-fluid rounded" alt="Movie Poster">
-              <form action="/movie/review" method="post">
+              <form action="/movie/review" method="post" onsubmit="return showLoadingScreen()">
                 <input type="hidden" name="movieTitle" value="<?php echo $movie['Title']; ?>">
                 <button type="submit" class="btn btn-secondary mt-3">Get Review</button>
               </form>
