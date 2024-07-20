@@ -104,7 +104,7 @@
     }
   </style>
 </head>
-<main role="main" class="container">
+<main role="main" class="container mb-4">
   <h2>
     <?php if (isset($data['movies'])): ?>
       My Rated Movies

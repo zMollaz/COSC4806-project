@@ -33,7 +33,7 @@ if (isset($_SESSION["createError"]) && $_SESSION["createError"] == true) {
     }
   </style>
 </head>
-<main role="main" class="container mt-5">
+<main role="main" class="container mb-5">
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="card shadow-sm">

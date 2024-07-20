@@ -28,7 +28,7 @@ session_start();
     }
 
     .breadcrumb-container {
-      padding: 10px;
+      padding: 5px 0 0 10px;
       position: fixed;
       top: 56px;
       width: 100%;
@@ -41,6 +41,26 @@ session_start();
       top: 0;
       width: 100%;
       z-index: 1040;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .navbar-brand {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .navbar-brand img {
+      height: 100px;
+      width: 100px;
+      border-radius: 50%;
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translate(-50%, 50%);
+      background-color: white;
     }
 
     .content {
@@ -69,14 +89,15 @@ session_start();
 </head>
 
 <body class="bg-light d-flex flex-column min-vh-100">
-  <div id="loading-screen" class="">
-    <div class="spinner-border text-primary" role="status">
-      <span class="">Loading...</span>
+  <div id="loading-screen" class="text-cyan-800">
+    <div class="spinner-border text-cyan-800" role="status">
     </div>
   </div>
   <nav class="navbar navbar-expand-lg rounded-bottom navbar-dark bg-cyan-800">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">Movie Critic</a>
+      <a class="navbar-brand" href="/">
+        <img src="/public/images/logo.png" alt="Movie Critic">
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -111,10 +132,10 @@ session_start();
   </nav>
   <div class="breadcrumb-container">
     <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
+      <ol class="breadcrumb mb">
         <li class="breadcrumb-item"><a href="/">Home</a></li>
         <?php if (isset($_SESSION['controller']) && $_SESSION['controller'] !== 'home') : ?>
-          <li class="breadcrumb-item"><a href="/<?php echo strtolower($_SESSION['controller']); ?>">Search</a></li>
+          <li class="breadcrumb-item"><a href="/<?php echo strtolower($_SESSION['controller']); ?>"><?php echo $_SESSION['controller'] === 'movie' ? 'Search' : ucwords($_SESSION['controller']); ?></a></li>
           <?php if (isset($_SESSION['movieTitle']) && $_SESSION['controller'] === 'movie') : ?>
             <li class="breadcrumb-item"><a href="/movie/search/<?php echo strtolower($_SESSION['movieTitle']); ?>"><?php echo ucwords($_SESSION['movieTitle']); ?></a></li>
             <?php if (isset($_SESSION['action']) && $_SESSION['action'] === 'review') : ?>
@@ -125,4 +146,4 @@ session_start();
       </ol>
     </nav>
   </div>
-  <div class="content">
+  <div class="content"></div>
