@@ -94,6 +94,7 @@
 <main role="main" class="container">
   <?php if (isset($data['movie']) && !empty($data['movie']) && $data['movie']['Response'] == 'True') :
     $movie = $data['movie'];
+    $userRating = $data['userRating'] ?? null;
   ?>
     <div class="row justify-content-center">
       <div class="col-lg-10 col-xl-8">
@@ -107,13 +108,20 @@
             </div>
             <div class="rating-stars">
               <form action="/movie/rate" method="post" class="rating-form">
-                <button type="submit" class="btn btn-secondary ml-3">Rate</button>
-                <input type="radio" id="star5" name="rating" value="5" min="5" max="5" required><label for="star5">&#9733;</label>
-                <input type="radio" id="star4" name="rating" value="4" min="4" max="4" required><label for="star4">&#9733;</label>
-                <input type="radio" id="star3" name="rating" value="3" min="3" max="3" required><label for="star3">&#9733;</label>
-                <input type="radio" id="star2" name="rating" value="2" min="2" max="2" required><label for="star2">&#9733;</label>
-                <input type="radio" id="star1" name="rating" value="1" min="1" max="1" required><label for="star1">&#9733;</label>
-                <!-- <input type="hidden" name="movieTitle" value="<?php echo $movie['Title']; ?>"> -->
+                <?php if ($userRating === null) { ?>
+                  <button type="submit" class="btn btn-secondary ml-3">Rate</button>
+                  <input type="radio" id="star5" name="rating" value="5" required><label for="star5">&#9733;</label>
+                  <input type="radio" id="star4" name="rating" value="4" required><label for="star4">&#9733;</label>
+                  <input type="radio" id="star3" name="rating" value="3" required><label for="star3">&#9733;</label>
+                  <input type="radio" id="star2" name="rating" value="2" required><label for="star2">&#9733;</label>
+                  <input type="radio" id="star1" name="rating" value="1" required><label for="star1">&#9733;</label>
+                <?php } else { ?>
+                  <input type="radio" id="star5" name="rating" value="5" <?php echo $userRating == 5 ? 'checked' : ''; ?> disabled><label for="star5">&#9733;</label>
+                  <input type="radio" id="star4" name="rating" value="4" <?php echo $userRating == 4 ? 'checked' : ''; ?> disabled><label for="star4">&#9733;</label>
+                  <input type="radio" id="star3" name="rating" value="3" <?php echo $userRating == 3 ? 'checked' : ''; ?> disabled><label for="star3">&#9733;</label>
+                  <input type="radio" id="star2" name="rating" value="2" <?php echo $userRating == 2 ? 'checked' : ''; ?> disabled><label for="star2">&#9733;</label>
+                  <input type="radio" id="star1" name="rating" value="1" <?php echo $userRating == 1 ? 'checked' : ''; ?> disabled><label for="star1">&#9733;</label>
+                <?php } ?>
               </form>
             </div>
           </div>

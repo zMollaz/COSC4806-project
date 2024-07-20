@@ -26,5 +26,24 @@ class Rating {
         $rows = $statement->fetch(PDO::FETCH_ASSOC);
         return $rows['averageRating'];
     }
+
+    public function user_has_rated($userId, $movieTitle) {
+        $db = db_connect();
+        $statement = $db->prepare('SELECT COUNT(*) FROM ratings WHERE user_id = :user_id AND movie_title = :movie_title');
+        $statement->bindValue(':user_id', $userId);
+        $statement->bindValue(':movie_title', strtolower($movieTitle));
+        $statement->execute();
+        return $statement->fetchColumn() > 0;
+    }
+
+    public function get_user_rating($userId, $movieTitle) {
+        $db = db_connect();
+        $statement = $db->prepare('SELECT rating FROM ratings WHERE user_id = :user_id AND movie_title = :movie_title');
+        $statement->bindValue(':user_id', $userId);
+        $statement->bindValue(':movie_title', strtolower($movieTitle));
+        $statement->execute();
+        $row = $statement->fetch(PDO::FETCH_ASSOC);
+        return $row ? $row['rating'] : null;
+    }
 }
 ?>

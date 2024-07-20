@@ -21,10 +21,17 @@ class Movie extends Controller {
         $ratingModel = $this->model('Rating');
         $averageRating = $ratingModel->get_average_rating($movie_data['Title']);
 
+        // Check if user has rated
+        $userRating = null;
+        if (isset($_SESSION['user_id'])) {
+            $userId = $_SESSION['user_id'];
+            $userRating = $ratingModel->get_user_rating($userId, $movie_data['Title']);
+        }
+
         $_SESSION['controller'] = 'movie';
         $_SESSION['action'] = 'search';
         $_SESSION['movieTitle'] = $movie_data['Title'] ?? 'Not Found';
-        $this->view('movie/search', ['movie' => $movie_data, 'averageRating' => $averageRating]);
+        $this->view('movie/search', ['movie' => $movie_data, 'averageRating' => $averageRating, 'userRating' => $userRating]);
     }
     
     public function rate($param1 = '') {
@@ -36,17 +43,22 @@ class Movie extends Controller {
                 $userId = $_SESSION['user_id'];
             } else {
                 // Generate a unique numeric user ID
-                $userId = mt_rand(10000000, 99999999);
-                $_SESSION['user_id'] = $userId;
-
-                // Check if the user exists in the Users table
-                $this->user_lookup($userId);
+                if (!isset($_SESSION['user_id'])) {
+                    $userId = mt_rand(10000000, 99999999);
+                    $_SESSION['user_id'] = $userId;
+                    // Check if the user exists in the Users table
+                    $this->user_lookup($userId);
+                } else {
+                    $userId = $_SESSION['user_id'];
+                }
             }
 
             $ratingModel = $this->model('Rating');
-            $ratingModel->add_rating($userId, $movieTitle, $rating);
-            $_SESSION['user_rating'] = $rating;
-            $_SESSION['rated'] = 1;
+            if (!$ratingModel->user_has_rated($userId, $movieTitle)) {
+                $ratingModel->add_rating($userId, $movieTitle, $rating);
+                $_SESSION['user_rating'] = $rating;
+                $_SESSION['rated'] = 1;
+            }
             header('Location: /movie/search/' . $movieTitle);
             return;
         }
