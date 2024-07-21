@@ -47,7 +47,8 @@ class Movie extends Controller {
                     $userId = mt_rand(10000000, 99999999);
                     $_SESSION['user_id'] = $userId;
                     // Check if the user exists in the Users table
-                    $this->user_lookup($userId);
+                    $userModel = $this->model('User');
+                    $userModel->user_lookup($userId);
                 } else {
                     $userId = $_SESSION['user_id'];
                 }
@@ -61,21 +62,6 @@ class Movie extends Controller {
             }
             header('Location: /movie/search/' . $movieTitle);
             return;
-        }
-    }
-
-    private function user_lookup($userId) {
-        // Search for the user_id in the guests table
-        $db = db_connect();
-        $statement = $db->prepare('SELECT COUNT(*) FROM users WHERE id = :id');
-        $statement->bindValue(':id', $userId);
-        $statement->execute();
-
-        if ($statement->fetchColumn() == 0) {
-            // If user doesn't exist add the new user as a guest user
-            $statement = $db->prepare('INSERT INTO users (id) VALUES (:id)');
-            $statement->bindValue(':id', $userId);
-            $statement->execute();
         }
     }
 

@@ -3,9 +3,7 @@ session_start();
 require_once 'Log.php';
 
 class User {
-
     public function __construct() {
-
     }
 
     public function authenticate($username, $password) {
@@ -113,6 +111,21 @@ class User {
             $_SESSION["createError"] = 'Registration failed, please try again';
             header("Location: /create");
             die;
+        }
+    }
+
+    public function user_lookup($userId) {
+        // Search for the user_id in the guests table
+        $db = db_connect();
+        $statement = $db->prepare('SELECT COUNT(*) FROM users WHERE id = :id');
+        $statement->bindValue(':id', $userId);
+        $statement->execute();
+
+        if ($statement->fetchColumn() == 0) {
+            // If user doesn't exist add the new user as a guest user
+            $statement = $db->prepare('INSERT INTO users (id) VALUES (:id)');
+            $statement->bindValue(':id', $userId);
+            $statement->execute();
         }
     }
 }
