@@ -1,4 +1,5 @@
 <?php
+require_once 'core/config.php';
 
 function db_connect() {
     try { 
